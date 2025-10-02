@@ -228,7 +228,15 @@ function App() {
       <footer className="border-t bg-white/80 backdrop-blur-sm mt-auto" role="contentinfo">
         <div className="container mx-auto px-4 py-6">
           <p className="text-center text-sm text-muted-foreground">
-            MSG & EML Viewer - Client-side email file viewer
+            MSG & EML Viewer - Client-side email file viewer |{' '}
+            <a 
+              href="https://github.com/dtschannen/MSG-EML-Viewer" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              View on GitHub
+            </a>
           </p>
         </div>
       </footer>
