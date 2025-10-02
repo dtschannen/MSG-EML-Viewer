@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -5,6 +6,18 @@ export function NotFound() {
   const handleGoHome = () => {
     window.location.href = '/';
   };
+
+  useEffect(() => {
+    //return 404 status code for prerender
+    const meta = document.createElement('meta');
+    meta.name = 'prerender-status-code';
+    meta.content = '404';
+    document.head.appendChild(meta);
+
+    return () => {
+      document.head.removeChild(meta);
+    };
+  }, []);
 
 
   return (
