@@ -7,6 +7,7 @@ import { EmailHeader } from '@/components/viewer/EmailHeader';
 import { EmailBody } from '@/components/viewer/EmailBody';
 import { AttachmentPreview } from '@/components/viewer/AttachmentPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { NotFound } from '@/components/NotFound';
 import { useMsgParser } from '@/hooks/useMsgParser';
 import { MsgAttachment } from '@/types/msg';
 import { generateEmailPDF } from '@/lib/pdf-generator';
@@ -16,6 +17,7 @@ function App() {
   const [previewAttachment, setPreviewAttachment] =
     useState<MsgAttachment | null>(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const [is404, setIs404] = useState(false);
   const emailContentRef = useRef<HTMLDivElement>(null);
 
   const handleDownloadPDF = async () => {
@@ -32,6 +34,14 @@ function App() {
   };
 
   useEffect(() => {
+    // Check if current path is not root and should show 404
+    const currentPath = window.location.pathname;
+    if (currentPath !== '/' && currentPath !== '') {
+      setIs404(true);
+      // Set HTTP status to 404
+      document.title = '404 - Page Not Found | MSG & EML Viewer';
+    }
+
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -96,6 +106,11 @@ function App() {
       document.head.removeChild(script);
     };
   }, []);
+
+  // Show 404 page if path is not root
+  if (is404) {
+    return <NotFound />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-blue-50 to-cyan-100 flex flex-col">
